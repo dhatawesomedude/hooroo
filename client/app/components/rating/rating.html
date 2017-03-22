@@ -1,0 +1,7 @@
+<div class="item__star_rating">
+  <div class="content_circle" ng-if="ratingCtrl.ratingType == 'self'" ng-repeat="i in ratingCtrl.range(ratingCtrl.hotelRating) track by $index"></div>
+  <div class="rating" ng-if="ratingCtrl.ratingType == 'star'" >
+    <span class="rating" ng-repeat="i in ratingCtrl.range(ratingCtrl.hotelRating) track by $index">&#9733;</span>
+  </div>
+
+</div>
