@@ -23,7 +23,6 @@ class HotelsController {
     const compareHotelNames = (hotel_a, hotel_b) => hotel_a.title.localeCompare(hotel_b.title) > 0;
 
     if (this.selectedFilter === 'name-asc') {
-      console.log('filter ooo');
       this.hotels = [...this.hotels].sort(compareHotelNames);
     }
   }

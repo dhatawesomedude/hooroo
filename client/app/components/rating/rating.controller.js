@@ -3,17 +3,10 @@
  */
 class RatingController {
   constructor() {
-
+    this.range = new Array(Math.floor(Number(this.hotelRating)));
+    this.starRating = this.ratingType === 'star';
   }
 
-
-  $onInit () {
-    console.log(this);
-  }
-
-  range (max) {
-    return new Array(Math.floor(Number(max)));
-  }
 }
 
 export default RatingController;
