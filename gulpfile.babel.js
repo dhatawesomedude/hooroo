@@ -1,11 +1,10 @@
-/**
- * Created by orlandoadeyemi on 22/03/2017.
- */
 'use strict';
 
-import gulp from 'gulp';
-import path from 'path';
-import browserSync from 'browser-sync';
+import gulp     from 'gulp';
+import webpack  from 'webpack-stream';
+import path     from 'path';
+import sync     from 'run-sequence';
+import browserSync    from 'browser-sync';
 
 let reload = () => browserSync.reload();
 let root = 'client';
@@ -28,12 +27,19 @@ let paths = {
   output: root
 };
 
-gulp.task('reload', done => {
-  reload();
-  done()
+// use webpack.config.js to build modules
+gulp.task('webpack', () => {
+  return gulp.src(paths.entry)
+    .pipe(webpack(require('./webpack.config')))
+    .pipe(gulp.dest(paths.output));
 });
 
-gulp.task('serve', () => {
+gulp.task('reload', ['webpack'], (done) => {
+  reload();
+  done();
+});
+
+gulp.task('serve', ['webpack'], () => {
   browserSync({
     port: process.env.PORT || 3000,
     open: false,
