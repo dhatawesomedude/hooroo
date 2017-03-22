@@ -6,11 +6,6 @@ class RatingController {
 
   }
 
-
-  $onInit () {
-    console.log(this);
-  }
-
   range (max) {
     return new Array(Math.floor(Number(max)));
   }
