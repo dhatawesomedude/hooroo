@@ -4,8 +4,8 @@
   "description": "Test frontend project for settl",
   "main": "index.js",
   "dependencies": {
-    "angular": "1.5.7",
-    "angular-animate": "1.5.7",
+    "angular": "1.5.8",
+    "angular-animate": "1.5.8",
     "angular-mocks": "1.5.7",
     "angular-ui-router": "^0.3.1",
     "bootstrap-css-only": "3.3.6",
@@ -34,9 +34,11 @@
     "karma-webpack": "1.7.0",
     "ng-annotate-loader": "0.1.0",
     "node-libs-browser": "1.0.0",
+    "node-sass": "^4.5.1",
     "phantomjs-prebuilt": "2.1.7",
     "raw-loader": "0.5.1",
     "run-sequence": "1.2.1",
+    "sass-loader": "^6.0.3",
     "style-loader": "0.13.1",
     "stylus": "^0.54.5",
     "stylus-loader": "2.1.1",
@@ -46,7 +48,8 @@
     "yargs": "4.7.1"
   },
   "scripts": {
-    "test": "karma start"
+    "test": "karma start",
+    "start": "gulp"
   },
   "repository": {
     "type": "git",
