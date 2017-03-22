@@ -1,0 +1,38 @@
+<!-- Row Item -->
+<div class="row">
+  <div class="col-md-3">
+    <div class="img-hotel">
+      <div class="hotel__item "><span class="hotel__item__bar">{{hotelItemCtrl.hotel.promotion}}</span>
+        <img class="img-hotel" ng-src="{{hotelItemCtrl.hotel.image}}"></div>
+    </div>
+  </div>
+
+  <div class="col-md-5 col-sm-6 col-6 nopadding" >
+    <span class="line"></span>
+    <div class="item__box">
+      <h4 class="item__title">{{hotelItemCtrl.hotel.title}}</h4>
+
+      <rating hotel-rating="hotelItemCtrl.hotel.rating" rating-type="hotelItemCtrl.hotel.rating_type"></rating>
+      <span class="content_adress">{{hotelItemCtrl.hotel.address}}</span>
+      <div class="item__room_type">{{hotelItemCtrl.hotel.rooms[0].name}}</div>
+      <div class="item__cancelation" ng-if="hotelItemCtrl.hotel.rooms[0].free_cancellation">Free cancelation</div>
+    </div>
+  </div>
+  <div class="col-md-2 col-sm-3 col-3 nopadding">
+    <span class="line"></span>
+    <div class="points__box">
+      <div class="points__title">Qantas Points earned*</div>
+      <div class="points__count">{{hotelItemCtrl.hotel.rooms[0].points_earned}}</div>
+    </div>
+  </div>
+  <div class="col-md-2 col-sm-3 col-3 nopadding">
+    <span class="line"></span>
+    <div class="price__box">
+      <div class="price__nights">1 night total {{hotelItemCtrl.hotel.rooms[0].currency}}</div>
+      <div class="price__cost"><span class="cost__dollar">$</span> {{hotelItemCtrl.hotel.rooms[0].price}}</div>
+      <div class="price__save" ng-if="hotelItemCtrl.hotel.rooms[0].savings != '0'">Save ${{hotelItemCtrl.hotel.rooms[0].savings}}~</div>
+    </div>
+
+
+  </div>
+</div>

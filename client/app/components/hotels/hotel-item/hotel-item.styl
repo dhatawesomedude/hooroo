@@ -1,0 +1,104 @@
+.line
+  width: 100%
+  margin: 0
+  border-top: 1px solid #ddd
+  display: block
+.nopadding
+  padding: 0 !important
+
+hotels
+  padding: 20px 0
+  .row
+    padding: 10px 0
+    .img-hotel
+      width: 100%
+      height: 100%
+      .hotel__item
+        width: 100%
+        height: 165px
+        position: relative
+        .hotel__item__bar
+          font-weight: bold
+          color: #ff0000
+          padding: 8px 10px
+          background: #fff
+          position: absolute
+          top: 7px
+          left: 0px
+    .item__box
+      margin-top: 15px
+      .item__title
+        margin: 0
+        display: inline-block
+      .content_adress
+        font-size: 12px
+        color: #939393
+        display: block
+      .item__room_type
+        font-size: 12px
+        color: #ff0000
+        padding-top: 20px
+        border-bottom: 1px solid #ff0000
+        display: inline-block
+      .item__cancelation
+        color: #2eb662
+        font-size: 14px
+        margin: 54px 0 0 25px
+        &:before
+          content: ''
+          width: 21px
+          height: 21px
+          background: url("../../../../assets/img/check.png") top center
+          background-size: cover
+          position: absolute
+          left: 0px
+          bottom: 0px
+    .price__box
+      margin-top: 50px
+      text-align: right
+      .price__nights
+        font-size: 12px
+      .price__cost
+        font-size: 40px
+        position: relative
+        .cost__dollar
+          font-size: 20px
+          float: right
+          margin-top: 10px
+      .price__save
+        font-size: 18px
+        color: #ff0000
+    .points__box
+      text-align: right
+      margin-top: 50px
+      color: #b28324
+      .points__title
+        font-size: 12px
+        font-weight: bold
+      .points__count
+        font-size: 30px
+        font-weight: bold
+    .content_cancelation
+      color: #48dd80
+      margin-top: 15px
+      margin-bottom: 0
+    .star_empty
+      background: url("../../../../assets/img/star_e.png") top center
+    .circle_empty
+      background: #ddd
+    .content_nights
+      font-size: 12px
+      padding-top: 30px
+    .content_cost
+      font-size: 40px
+      .cost_dollar
+        font-size: 10px
+@media screen and (max-width: 767px)
+  .hotel__item
+    height: 125px !important
+  .nopadding
+    padding: 0 15px !important
+  #content .row .item__box .item__cancelation
+    margin: 65px 0 0 25px
+    &:before
+      left: 15px
