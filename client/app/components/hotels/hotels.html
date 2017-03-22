@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3"><h5><b>{{hotelsListCtrl.hotels.length}}</b><i> hotels
+      in </i><b>{{hotelsListCtrl.location}}.</b></h5></div>
+
+    <div class="filter">
+      <label for="mySelect">Sort by:</label>
+      <select name="mySelect" id="mySelect"
+              ng-options="key as value for (key, value) in hotelsListCtrl.filters"
+              ng-model="hotelsListCtrl.selectedFilter" ng-change="hotelsListCtrl.onFilterSelected()">
+
+      </select>
+    </div>
+  </div>
+
+  <!-- Row Item -->
+  <div ng-repeat="hotel in hotelsListCtrl.hotels" class="row">
+    <hotel-item hotel="hotel"></hotel-item>
+  </div>
+
+
+</div>
+
+
+
