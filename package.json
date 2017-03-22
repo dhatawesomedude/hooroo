@@ -1,0 +1,23 @@
+{
+  "name": "hooroo",
+  "version": "0.0.1",
+  "description": "Test frontend project for settl",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhatawesomedude/hooroo.git"
+  },
+  "keywords": [
+    "angular",
+    "es6"
+  ],
+  "author": "Orlando Adeyemi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dhatawesomedude/hooroo/issues"
+  },
+  "homepage": "https://github.com/dhatawesomedude/hooroo#readme"
+}
