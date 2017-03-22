@@ -7,7 +7,7 @@ You will need `node` (https://nodejs.org/en/) and `npm`.
 ## Installing
 ```bash
 git clone git+https://github.com/dhatawesomedude/hooroo.git
-cd Hooroo
+cd hooroo
 npm install
 gulp
 ```
