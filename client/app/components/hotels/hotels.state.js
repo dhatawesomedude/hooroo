@@ -44,7 +44,6 @@ export const HotelActions = ($ngRedux, $http, $q) => {
           })
       }
     }
-    //return {type : GET_HOTELS, payload : hotels}
   };
 
   const selectHotel = hotel => {
