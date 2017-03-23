@@ -10,6 +10,9 @@ export const GET_LOCATION = 'GET_LOCATION';
 export const GET_FILTERS = 'GET_FILTERS';
 export const GET_FILTER = 'GET_FILTER';
 export const GET_HOTELS_NAME_ASC = 'GET_HOTELS_NAME_ASC';
+export const GET_HOTELS_TOP_DEALS = 'GET_HOTELS_TOP_DEALS';
+export const GET_HOTELS_PRICE_ASC = 'GET_HOTELS_PRICE_ASC';
+export const GET_HOTELS_PRICE_DESC = 'GET_HOTELS_PRICE_DESC';
 
 //-------------------------------------------------------------------
 // Actions
@@ -54,8 +57,14 @@ export const HotelActions = ($ngRedux, $http, $q) => {
     switch (selected_filter) {
       case 'name-asc':
         return {type : GET_HOTELS_NAME_ASC};
+      case 'top-deals':
+        return {type : GET_HOTELS_TOP_DEALS};
+      case 'price-asc':
+        return {type : GET_HOTELS_PRICE_ASC};
+      case 'price-desc':
+        return {type : GET_HOTELS_PRICE_DESC};
       default:
-        return {type : GET_HOTELS_NAME_ASC}
+        return {type : GET_HOTELS}
     }
   };
 
@@ -81,14 +90,24 @@ export const HotelActions = ($ngRedux, $http, $q) => {
 // Reducers
 //-------------------------------------------------------------------
 
-const compareHotelNames = (hotel_a, hotel_b) => hotel_a.title.localeCompare(hotel_b.title) > 0;
-
 export const hotels = (state = [], {type, payload}) => {
+  const getDigits = num => num.match(/\d+/g)[0];
+  const compareHotelNames = (hotel_a, hotel_b) => hotel_a.title.localeCompare(hotel_b.title) > 0;
+  const compareDeals = (hotel_a, hotel_b) => getDigits(hotel_a.rooms[0].savings) < getDigits(hotel_b.rooms[0].savings);
+  const comparePriceAsc = (hotel_a, hotel_b) => getDigits(hotel_a.rooms[0].price) > getDigits(hotel_b.rooms[0].price);
+  const comparePriceDesc = (hotel_a, hotel_b) => getDigits(hotel_a.rooms[0].price) < getDigits(hotel_b.rooms[0].price);
+
   switch (type) {
     case GET_HOTELS:
       return payload || [...state];
     case GET_HOTELS_NAME_ASC:
       return payload || [...state].sort(compareHotelNames);
+    case GET_HOTELS_TOP_DEALS:
+      return payload || [...state].sort(compareDeals);
+    case GET_HOTELS_PRICE_ASC:
+      return payload || [...state].sort(comparePriceAsc);
+    case GET_HOTELS_PRICE_DESC:
+      return payload || [...state].sort(comparePriceDesc);
     default:
       return state;
   }
