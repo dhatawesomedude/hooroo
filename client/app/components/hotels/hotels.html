@@ -7,7 +7,7 @@
       <label for="mySelect">Sort by:</label>
       <select name="mySelect" id="mySelect"
               ng-options="key as value for (key, value) in hotelsListCtrl.filters"
-              ng-model="hotelsListCtrl.selectedFilter" ng-change="hotelsListCtrl.onFilterSelected()">
+              ng-model="hotelsListCtrl.selectedFilter" ng-change="hotelsListCtrl.onFilterSelected(hotelsListCtrl.selectedFilter)">
 
       </select>
     </div>

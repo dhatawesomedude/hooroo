@@ -1,6 +1,8 @@
 /**
  * Created by orlandoadeyemi on 22/03/2017.
  */
+import {hotels, filters, location, GET_HOTELS, GET_LOCATION, GET_FILTERS, GET_HOTELS_NAME_ASC} from './hotels.state'
+
 class HotelsController {
   constructor(HotelsModel) {
     'ngInject';
@@ -9,22 +11,20 @@ class HotelsController {
   }
 
   $onInit() {
-    this.HotelsModel.getHotels().then(hotels => this.hotels = hotels);
-    this.HotelsModel.getLocation().then(location => this.location = location);
-    this.HotelsModel.getFilters().then(filters => {
-      this.filters = filters;
-      const firstFilterKey = Object.keys(this.filters)[0];
-      this.selectedFilter = {firstFilterKey : this.filters[firstFilterKey]};
-    });
-
+    this.hotels = hotels(undefined, {type : GET_HOTELS});
+    this.location = location(undefined, {type : GET_LOCATION});
+    this.filters = filters(undefined, {type : GET_FILTERS});
+    this.selectedFilter = '';
   }
 
-  onFilterSelected() {
-    const compareHotelNames = (hotel_a, hotel_b) => hotel_a.title.localeCompare(hotel_b.title) > 0;
+  onFilterSelected(selection) {
+    this.hotels = hotels(this.hotels, {type : GET_HOTELS_NAME_ASC, payload : selection});
 
-    if (this.selectedFilter === 'name-asc') {
-      this.hotels = [...this.hotels].sort(compareHotelNames);
-    }
+    // const compareHotelNames = (hotel_a, hotel_b) => hotel_a.title.localeCompare(hotel_b.title) > 0;
+    //
+    // if (this.selectedFilter === 'name-asc') {
+    //   this.hotels = [...this.hotels].sort(compareHotelNames);
+    // }
   }
 }
 
