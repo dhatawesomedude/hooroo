@@ -6,84 +6,56 @@ import HotelsController from './hotels.controller';
 import HotelsComponent from './hotels.component';
 import HotelsTemplate from './hotels.html';
 
-describe('Hotels', () => {
-  let component, $componentController, HotelsModel;
+import {hotels, GET_HOTELS} from './hotels.state';
 
-  beforeEach(() => {
-    window.module('hotels');
+describe ('hotels', ()=> {
+  const initialState = {
+    sort_query : {
+      "name-asc": "Name (A-Z)"
+    },
+    query : {location : 'Sydney'},
+    hotels : [{
+      "id": "mesq6mggyn",
+      "title": "Primus Hotel Sydney",
+      "address": "339 Pitt St, Sydney",
+      "image": "https://unsplash.it/145/125/?random",
+      "rating": "5",
+      "rating_type": "self",
+      "promotion": "Exclusive Deal",
+      "rooms": [{
+        "name": "Deluxe King",
+        "price": "$375",
+        "currency": "AUD",
+        "savings": "$28",
+        "points_earned": "2250",
+        "free_cancellation": "true"
+      }]
+    }]
+  };
 
-    window.module($provide => {
-      $provide.value('HotelsModel', {
-        getHotels: () => {
-          return {
-            then: () => {}
-          };
-        },
-        getLocation: () => {
-          return {
-            then: () => {}
-          };
-        },
-        getFilters: () => {
-          return {
-            then: () => {}
-          }
-        }
-      });
-    });
-  });
-
-  beforeEach(inject((_$componentController_, _HotelsModel_) => {
-    HotelsModel = _HotelsModel_;
-    $componentController = _$componentController_;
-  }));
-
-  describe('Module', () => {
+    describe('Module', () => {
     it('is named correctly', () => {
       expect(HotelsModule.name).toEqual('hotels');
     });
   });
 
-  describe('Controller', () => {
-    it('calls HotelsModel.getHotels immediately', () => {
-      spyOn(HotelsModel, 'getHotels').and.callThrough();
-
-      component = $componentController('hotels', {
-        HotelsModel
-      });
-      component.$onInit();
-
-      expect(HotelsModel.getHotels).toHaveBeenCalled();
+  describe('Reducers', () => {
+    it('should return an empty object for state by default', () => {
+      const result = hotels(undefined, {type: 'random', payload : {}});
+      expect(result).toEqual([]);
     });
 
-    it('calls HotelsModel.getLocation immediately', () => {
-      spyOn(HotelsModel, 'getLocation').and.callThrough();
-
-      component = $componentController('hotels', {
-        HotelsModel
-      });
-      component.$onInit();
-
-      expect(HotelsModel.getLocation).toHaveBeenCalled();
+    it('should return an initial state with an unknown action', () => {
+      const result = hotels(initialState.hotels, {type: 'random', payload : {}});
+      expect(result).toBe(initialState.hotels);
     });
 
-    it('calls HotelsModel.getFilters immediately', () => {
-      spyOn(HotelsModel, 'getFilters').and.callThrough();
-
-      component = $componentController('hotels', {
-        HotelsModel
-      });
-      component.$onInit();
-
-      expect(HotelsModel.getFilters).toHaveBeenCalled();
-    });
+    it('should return correct payload on GET_HOTELS', () => {
+      const result = hotels(undefined, {type : GET_HOTELS, payload : initialState.hotels});
+      expect(result).toBe(initialState.hotels);
+    })
   });
 
-  describe('Template', () => {
-    it('includes the `hotel-item` directive', () => {
-      expect(HotelsTemplate).toContain('hotel-item');
-    });
-  });
 
   describe('Component', () => {
     const component = HotelsComponent;
@@ -100,4 +72,13 @@ describe('Hotels', () => {
       expect(component.controller).toEqual(HotelsController);
     });
   });
+
+    describe('Template', () => {
+    it('includes the `hotel-item` directive', () => {
+      expect(HotelsTemplate).toContain('hotel-item');
+    });
+  });
+
 });
+
+

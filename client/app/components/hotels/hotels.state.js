@@ -83,14 +83,14 @@ export const HotelActions = ($ngRedux, $http, $q) => {
 
 const compareHotelNames = (hotel_a, hotel_b) => hotel_a.title.localeCompare(hotel_b.title) > 0;
 
-export const hotels = (state = {}, {type, payload}) => {
+export const hotels = (state = [], {type, payload}) => {
   switch (type) {
     case GET_HOTELS:
       return payload || [...state];
     case GET_HOTELS_NAME_ASC:
       return payload || [...state].sort(compareHotelNames);
     default:
-      return [...state];
+      return state;
   }
 };
 
