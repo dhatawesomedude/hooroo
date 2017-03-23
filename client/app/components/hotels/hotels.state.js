@@ -12,6 +12,41 @@ export const GET_FILTER = 'GET_FILTER';
 export const GET_HOTELS_NAME_ASC = 'GET_HOTELS_NAME_ASC';
 
 //-------------------------------------------------------------------
+// Actions
+//-------------------------------------------------------------------
+
+export const HotelActions = () => {
+  const getHotels = hotels => {
+    return {type : GET_HOTELS, payload : hotels}
+  };
+
+  const selectHotel = hotel => {
+    return {type : GET_CURRENT_HOTEL, payload : hotel}
+  };
+
+  const filterHotels = () => {
+    return {type : GET_HOTELS_NAME_ASC}
+  };
+
+  const getLocation = () => {
+    return {type : GET_LOCATION}
+  };
+
+  const getFilters = () => {
+    return {type : GET_FILTERS}
+  };
+
+  return {
+    getHotels,
+    selectHotel,
+    getLocation,
+    getFilters,
+    filterHotels
+  }
+
+};
+
+//-------------------------------------------------------------------
 // Reducers
 //-------------------------------------------------------------------
 export const initialState = {
@@ -112,11 +147,11 @@ export const initialState = {
 export const hotels = (state = initialState, {type, payload}) => {
   switch (type) {
     case GET_HOTELS:
-      return payload || state.hotels;
+      return payload || state;
     case GET_LOCATION:
-      return payload || state.query.location;
+      return payload || state;
     case GET_FILTERS:
-      return payload || state.sort_filters;
+      return payload || state;
     default:
       return state;
   }
@@ -131,20 +166,20 @@ export const hotel = (state = {}, {type, payload}) => {
   }
 };
 
-export const location = (state = initialState, {type, payload}) => {
-  switch (type) {
-    case GET_LOCATION:
-      return payload || state.location;
-    default:
-      return state;
-  }
-};
-
-export const filters = (state = initialState, {type, payload}) => {
-  switch (type) {
-    case GET_FILTERS:
-      return payload || state.sort_filters;
-    default:
-      return state;
-  }
-};
+// export const location = (state = initialState, {type, payload}) => {
+//   switch (type) {
+//     case GET_LOCATION:
+//       return payload || state.query.location;
+//     default:
+//       return state;
+//   }
+// };
+//
+// export const filters = (state = initialState, {type, payload}) => {
+//   switch (type) {
+//     case GET_FILTERS:
+//       return payload || state.sort_filters;
+//     default:
+//       return state;
+//   }
+// };
