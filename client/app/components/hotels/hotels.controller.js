@@ -1,24 +1,32 @@
 /**
  * Created by orlandoadeyemi on 22/03/2017.
  */
-import {hotels, filters, location, GET_HOTELS, GET_LOCATION, GET_FILTERS, GET_HOTELS_NAME_ASC} from './hotels.state'
+import {hotels} from './hotels.state'
 
 class HotelsController {
-  constructor(HotelsModel) {
+  constructor(store, HotelActions) {
     'ngInject';
 
-    this.HotelsModel = HotelsModel;
+    this.store = store;
+    this.selectedFilter = '';
+    this.HotelActions = HotelActions;
   }
 
   $onInit() {
-    this.hotels = hotels(undefined, {type : GET_HOTELS});
-    this.location = location(undefined, {type : GET_LOCATION});
-    this.filters = filters(undefined, {type : GET_FILTERS});
-    this.selectedFilter = '';
+
+    this.unsubscribe = this.store.subscribe(() => {
+      this.hotels = this.store.getState().hotels;
+      this.location = this.store.getState().query.location;
+      this.filters = this.store.getState().sort_filters;
+    });
+
+    this.store.dispatch(this.HotelActions.getHotels());
+    this.store.dispatch(this.HotelActions.getLocation());
+    this.store.dispatch(this.HotelActions.getFilters());
   }
 
   onFilterSelected(selection) {
-    this.hotels = hotels(this.hotels, {type : GET_HOTELS_NAME_ASC, payload : selection});
+    this.hotels = hotels(this.hotels, this.HotelActions.filterHotels());
 
     // const compareHotelNames = (hotel_a, hotel_b) => hotel_a.title.localeCompare(hotel_b.title) > 0;
     //
