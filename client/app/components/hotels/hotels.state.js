@@ -15,14 +15,39 @@ export const GET_HOTELS_NAME_ASC = 'GET_HOTELS_NAME_ASC';
 // Actions
 //-------------------------------------------------------------------
 
-export const HotelActions = ($ngRedux) => {
+const URLS = {
+  HOTELS: 'data/hotels.json'
+};
+
+export const HotelActions = ($ngRedux, $http, $q) => {
   'ngInject'
+
+  const extract = result => result.data;
+
   const getHotels = hotels => {
-    return {type : GET_HOTELS, payload : hotels}
+    return (dispatch, getState) => {
+      const {hotels} = getState();
+
+      if (hotels.length) {
+        return $q.when(hotels)
+          .then(()=> {
+          dispatch({type : GET_HOTELS, payload : hotels})
+          })
+      }
+      else  {
+        return $http.get(URLS.HOTELS)
+          .then(extract)
+          .then(data => {
+            dispatch({type : GET_HOTELS, payload : data.hotels});
+            dispatch({type : GET_LOCATION, payload : data.query.location});
+            dispatch({type : GET_FILTERS, payload : data.sort_filters})
+          })
+      }
+    }
+    //return {type : GET_HOTELS, payload : hotels}
   };
 
   const selectHotel = hotel => {
-    console.log($ngRedux.getState());
     return {type : GET_CURRENT_HOTEL, payload : hotel}
   };
 
@@ -56,104 +81,10 @@ export const HotelActions = ($ngRedux) => {
 //-------------------------------------------------------------------
 // Reducers
 //-------------------------------------------------------------------
-export const initialState = {
-  "sort_filters": {
-    "top-deals": "Top Deals",
-    "price-desc": "Price (high-low)",
-    "price-asc": "Price (low-high)",
-    "name-asc": "Name (A-Z)"
-  },
-  "query": {
-    "location": "Sydney"
-  },
-  "hotels": [
-    {
-      "id": "cxd650nuyo",
-      "title": "Courtyard by Marriott Sydney-North Ryde",
-      "address": "7-11 Talavera Rd, North Ryde",
-      "image": "https://unsplash.it/145/125/?random",
-      "rating": "4",
-      "rating_type": "self",
-      "promotion": "Exclusive Deal",
-      "rooms": [{
-        "name": "Deluxe Balcony Room",
-        "price": "$329",
-        "currency": "AUD",
-        "savings": "$30~",
-        "points_earned": "0",
-        "free_cancellation": "true"
-      }]
-    }, {
-      "id": "mesq6mggyn",
-      "title": "Primus Hotel Sydney",
-      "address": "339 Pitt St, Sydney",
-      "image": "https://unsplash.it/145/125/?random",
-      "rating": "5",
-      "rating_type": "self",
-      "promotion": "Exclusive Deal",
-      "rooms": [{
-        "name": "Deluxe King",
-        "price": "$375",
-        "currency": "AUD",
-        "savings": "$28",
-        "points_earned": "2250",
-        "free_cancellation": "true"
-      }]
-    }, {
-      "id": "xbtlihs45t",
-      "title": "Rydges World Square Sydney",
-      "address": "389 Pitt Street, Sydney",
-      "image": "https://unsplash.it/145/125/?random",
-      "rating": "4.5",
-      "rating_type": "star",
-      "promotion": "Red Hot",
-      "rooms": [{
-        "name": "Deluxe King Room",
-        "price": "$227",
-        "currency": "AUD",
-        "savings": "0",
-        "points_earned": "831",
-        "free_cancellation": "false"
-      }]
-    }, {
-      "id": "5lm8loqk1s",
-      "title": "PARKROYAL Darling Harbour Sydney",
-      "address": "150 Day Street, Sydney",
-      "image": "https://unsplash.it/145/125/?random",
-      "rating": "4.5",
-      "rating_type": "star",
-      "promotion": "Red Hot",
-      "rooms": [{
-        "name": "Darling Harbour Club Room",
-        "price": "$535",
-        "currency": "AUD",
-        "savings": "0",
-        "points_earned": "0",
-        "free_cancellation": "true"
-      }]
-    }, {
-      "id": "kwjf8jlxg9",
-      "title": "Metro Hotel Marlow Sydney Central",
-      "address": "431-439 Pitt Street, Sydney",
-      "image": "https://unsplash.it/145/125/?random",
-      "rating": "3.5",
-      "rating_type": "star",
-      "promotion": "Bonus Points",
-      "rooms": [{
-        "name": "Delue Triple",
-        "price": "$295",
-        "currency": "AUD",
-        "savings": "0",
-        "points_earned": "1770",
-        "free_cancellation": "true"
-      }]
-    }
-  ]
-};
 
 const compareHotelNames = (hotel_a, hotel_b) => hotel_a.title.localeCompare(hotel_b.title) > 0;
 
-export const hotels = (state = initialState.hotels, {type, payload}) => {
+export const hotels = (state = {}, {type, payload}) => {
   switch (type) {
     case GET_HOTELS:
       return payload || [...state];
@@ -173,7 +104,7 @@ export const hotel = (state = {}, {type, payload}) => {
   }
 };
 
-export const location = (state = initialState.query.location, {type, payload}) => {
+export const location = (state = '', {type, payload}) => {
   switch (type) {
     case GET_LOCATION:
       return payload || state;
@@ -182,7 +113,7 @@ export const location = (state = initialState.query.location, {type, payload}) =
   }
 };
 
-export const filters = (state = initialState.sort_filters, {type, payload}) => {
+export const filters = (state = {}, {type, payload}) => {
   switch (type) {
     case GET_FILTERS:
       return payload || state;

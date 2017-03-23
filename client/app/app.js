@@ -7,6 +7,7 @@ import CommonModule from './common/common';
 import ComponentsModule from './components/components';
 
 import {hotels, location, filters} from './components/hotels/hotels.state'
+import thunk from 'redux-thunk'
 import {combineReducers} from 'redux';
 import ngRedux from 'ng-redux';
 
@@ -19,7 +20,7 @@ const rootReducer = combineReducers({
 const config = $ngReduxProvider => {
   'ngInject'
 
-  $ngReduxProvider.createStoreWith(rootReducer, []);
+  $ngReduxProvider.createStoreWith(rootReducer, [thunk]);
 };
 
 angular.module('app', [
