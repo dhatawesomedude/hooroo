@@ -4,35 +4,30 @@
 import {hotels} from './hotels.state'
 
 class HotelsController {
-  constructor(store, HotelActions) {
+  constructor($ngRedux, HotelActions) {
     'ngInject';
 
-    this.store = store;
+    this.store = $ngRedux;
     this.selectedFilter = '';
     this.HotelActions = HotelActions;
   }
 
   $onInit() {
 
+    //subscribe returns an unsubscribe method so we can unsubscribe at any time.
     this.unsubscribe = this.store.subscribe(() => {
+      console.log(this.store.getState());
       this.hotels = this.store.getState().hotels;
-      this.location = this.store.getState().query.location;
-      this.filters = this.store.getState().sort_filters;
+      this.location = this.store.getState().location;
+      this.filters = this.store.getState().filters;
     });
 
     this.store.dispatch(this.HotelActions.getHotels());
     this.store.dispatch(this.HotelActions.getLocation());
-    this.store.dispatch(this.HotelActions.getFilters());
   }
 
   onFilterSelected(selection) {
-    this.hotels = hotels(this.hotels, this.HotelActions.filterHotels());
-
-    // const compareHotelNames = (hotel_a, hotel_b) => hotel_a.title.localeCompare(hotel_b.title) > 0;
-    //
-    // if (this.selectedFilter === 'name-asc') {
-    //   this.hotels = [...this.hotels].sort(compareHotelNames);
-    // }
+    this.store.dispatch(this.HotelActions.filterHotels(selection));
   }
 }
 
