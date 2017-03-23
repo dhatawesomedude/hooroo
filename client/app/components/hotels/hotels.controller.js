@@ -13,21 +13,28 @@ class HotelsController {
   }
 
   $onInit() {
+    const actions = Object.assign({}, this.HotelActions);
+    this.unsubscribe = this.store.connect(this.mapStateToThis, actions)(this);
 
-    //subscribe returns an unsubscribe method so we can unsubscribe at any time.
-    this.unsubscribe = this.store.subscribe(() => {
-      console.log(this.store.getState());
-      this.hotels = this.store.getState().hotels;
-      this.location = this.store.getState().location;
-      this.filters = this.store.getState().filters;
-    });
+    this.getHotels();
+    this.getLocation();
+  }
 
-    this.store.dispatch(this.HotelActions.getHotels());
-    this.store.dispatch(this.HotelActions.getLocation());
+  $onDestroy() {
+    //remove any listeners still connected to the store.
+    this.unsubscribe();
   }
 
   onFilterSelected(selection) {
-    this.store.dispatch(this.HotelActions.filterHotels(selection));
+    this.filterHotels(selection);
+  }
+
+  mapStateToThis(state) {
+    return {
+      hotels : state.hotels,
+      location : state.location,
+      filters : state.filters
+    }
   }
 }
 
